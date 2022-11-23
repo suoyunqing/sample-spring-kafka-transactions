@@ -23,6 +23,15 @@ services:
     volumes:
       - kafka-data:/var/run/docker.sock
 
+  redpanda-local:
+    image: vectorized/console:master-fcc15a3
+    environment:
+      KAFKA_BROKERS: kafka:29092
+    depends_on:
+      - kafka
+    ports:
+      - 9008:8080
+
   azure-sql-edge:
     # get tag list: https://mcr.microsoft.com/v2/azure-sql-edge/tags/list { "name": "azure-sql-edge", "tags": [ "1.0.0", "1.0.1", "1.0.2", "1.0.3", "1.0.4", "1.0.5", "1.0.6", "latest" ] }
     image: mcr.microsoft.com/azure-sql-edge:1.0.6 # use this because it supports ARM64 architecture for M1 Mac
