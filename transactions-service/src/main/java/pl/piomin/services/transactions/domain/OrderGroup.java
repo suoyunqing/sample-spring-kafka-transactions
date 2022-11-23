@@ -1,10 +1,13 @@
 package pl.piomin.services.transactions.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Table(name = "order_group")
 @Entity
 public class OrderGroup {
 
@@ -12,7 +15,9 @@ public class OrderGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
+    @Column( name = "total_no_of_orders")
     private int totalNoOfOrders;
+    @Column( name = "processed_no_of_orders")
     private int processedNoOfOrders;
 
     public OrderGroup() {

@@ -39,8 +39,9 @@ public class TransactionsProducer {
             ListenableFuture<SendResult<Long, Order>> result =
                     kafkaTemplate.send("transactions", o.getId(), o);
             result.addCallback(callback);
-            if (error && i > 5)
+            if (error && i > 5) {
                 throw new RuntimeException();
+            }
             Thread.sleep(1000);
         }
     }
