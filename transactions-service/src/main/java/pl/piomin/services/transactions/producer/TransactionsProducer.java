@@ -34,7 +34,8 @@ public class TransactionsProducer {
 
     @Transactional("kafkaTransactionManager")
     public void sendOrderGroup(boolean error) throws InterruptedException {
-        OrderGroup og = repository.save(new OrderGroup("SENT", 10, 0));
+        OrderGroup og = new OrderGroup("SENT", 10, 0);
+        //OrderGroup og = repository.save(new OrderGroup("SENT", 10, 0));
         generateAndSendPackage(error, og.getId());
     }
 
@@ -46,11 +47,11 @@ public class TransactionsProducer {
                     kafkaTemplate.send("transactions", o.getId(), o);
             result.addCallback(callback);
             if (error && i > 5) {
+                LOG.info("Produce order batch successfully!");
                 throw new RuntimeException();
             }
             Thread.sleep(1000);
         }
-        LOG.info("Produce successfully!");
+        LOG.info("Produce order batch successfully!");
     }
-
 }
