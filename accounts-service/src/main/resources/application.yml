@@ -13,7 +13,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
-        isolation.level: read_committed
+        isolation.level: read_uncommitted
       enable-auto-commit: false
       auto-offset-reset: earliest
     producer:
