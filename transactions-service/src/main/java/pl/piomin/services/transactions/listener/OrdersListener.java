@@ -32,13 +32,13 @@ public class OrdersListener {
     @Transactional("transactionManager")
     public void listen(Order order) {
         LOG.info("Received: {}", order);
-//        OrderGroup og = repository
-//                .findById(order.getGroupId())
-//                .orElseThrow();
-//        if (order.getStatus().equals("PROCESSED")) {
-//            og.setProcessedNoOfOrders(og.getProcessedNoOfOrders() + 1);
-//            og = repository.save(og);
-//            LOG.info("Current: {}", og);
-//        }
+        OrderGroup og = repository
+                .findById(order.getGroupId())
+                .orElseThrow();
+        if (order.getStatus().equals("PROCESSED")) {
+            og.setProcessedNoOfOrders(og.getProcessedNoOfOrders() + 1);
+            og = repository.save(og);
+            LOG.info("Current: {}", og);
+        }
     }
 }
