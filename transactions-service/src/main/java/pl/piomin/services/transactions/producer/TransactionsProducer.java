@@ -1,5 +1,6 @@
 package pl.piomin.services.transactions.producer;
 
+import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -32,23 +33,28 @@ public class TransactionsProducer {
         this.repository = repository;
     }
 
-    @Transactional("kafkaTransactionManager")
-    public void sendOrderGroup(boolean error) throws InterruptedException {
+    @Transactional(value = "transactionManager", rollbackFor = Exception.class)
+    public void sendOrderGroup(boolean error) throws InterruptedException, ExecutionException {
         OrderGroup og = repository.save(new OrderGroup("SENT", 10, 0));
         generateAndSendPackage(error, og.getId());
     }
-
-    private void generateAndSendPackage(boolean error, Long groupId)
-            throws InterruptedException {
+    @Transactional("kafkaTransactionManager")
+    public void generateAndSendPackage(boolean error, Long groupId)
+            throws InterruptedException, ExecutionException {
         for (long i = 0; i < 10; i++) {
             Order o = new Order(id++, i+1, i+2, 1000, "NEW", groupId);
             ListenableFuture<SendResult<Long, Order>> result =
                     kafkaTemplate.send("transactions", o.getId(), o);
-            result.addCallback(callback);
-            if (error && i > 5) {
-                throw new RuntimeException();
+//            result.addCallback(callback);
+            LOG.info("+++++++++++++++++++++");
+            result.get();
+            if (i == 7) {
+                LOG.info("");
             }
-            Thread.sleep(1000);
+//            if (error && i > 5) {
+//                throw new RuntimeException();
+//            }
+            Thread.sleep(4000);
         }
         LOG.info("Produce successfully!");
     }

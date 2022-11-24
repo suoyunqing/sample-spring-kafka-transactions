@@ -16,7 +16,7 @@ public class TransactionsResultCallback implements
 
     @Override
     public void onFailure(Throwable ex) {
-        LOG.error("Error", ex);
+        LOG.error("Fail to send message", ex);
     }
 
     @Override

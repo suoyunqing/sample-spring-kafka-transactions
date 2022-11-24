@@ -1,5 +1,6 @@
 package pl.piomin.services.transactions.controller;
 
+import java.util.concurrent.ExecutionException;
 import org.springframework.web.bind.annotation.*;
 import pl.piomin.services.transactions.domain.OrderGroup;
 import pl.piomin.services.transactions.producer.TransactionsProducer;
@@ -20,7 +21,7 @@ public class TransactionsController {
     }
 
     @PostMapping
-    public void sendTransaction(@RequestBody boolean error) throws InterruptedException {
+    public void sendTransaction(@RequestBody boolean error) throws InterruptedException, ExecutionException {
         producer.sendOrderGroup(error);
     }
 

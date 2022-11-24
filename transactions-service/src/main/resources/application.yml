@@ -22,9 +22,10 @@ spring:
 
 #sasl.jaas.config: org.apache.kafka.common.security.scram.ScramLoginModule required username=\"aHVtYmxlLXJhdC02ODM0JJfK7rXhMissPVIH8Fk0TkUQUmGWTxoTxhgvM_cZVek\" password=\"Sjb1tk4-hJ_A5xxr_jz8k-jKtnYpfPhC94Jd-J9krZ5-Dde5cNhXtDwtOpaKrDyT6Vy3Jw==\";
 logging:
-  pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"
+#  pattern.console: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"
   level:
-#    org.springframework.transaction: trace
-#    org.springframework.kafka.transaction: debug
-    org.springframework.data: debug
+    org.springframework.transaction: trace
+    org.springframework.kafka.transaction: debug
+    org.springframework.data: trace
+    org.springframework.jdbc: trace
 #logging.level.org.springframework.jdbc=debug
